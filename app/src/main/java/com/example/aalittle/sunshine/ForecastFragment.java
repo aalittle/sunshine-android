@@ -1,6 +1,7 @@
 package com.example.aalittle.sunshine;
 
 import android.app.Fragment;
+import android.content.Context;
 import android.net.Uri;
 import android.os.AsyncTask;
 import android.os.Bundle;
@@ -11,6 +12,7 @@ import android.view.LayoutInflater;
 import android.view.MenuInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.ListView;
 
@@ -25,6 +27,7 @@ import java.util.ArrayList;
 
 import android.view.Menu;
 import android.view.MenuItem;
+import android.widget.Toast;
 
 import org.json.JSONArray;
 import org.json.JSONException;
@@ -65,6 +68,20 @@ public class ForecastFragment extends Fragment {
 
         ListView listView = (ListView)rootView.findViewById(R.id.listview_forecast);
         listView.setAdapter(mForecastAdapter);
+
+        listView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+            @Override
+            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+                String selectedForecast = mForecastAdapter.getItem(position);
+                if (selectedForecast != null) {
+                    Toast weatherToast = Toast.makeText(getActivity(), selectedForecast, Toast.LENGTH_SHORT);
+                    weatherToast.show();
+                }
+            }
+        });
+
+        FetchWeatherTask weatherTask = new FetchWeatherTask();
+        weatherTask.execute("b3h1m2");
 
         return rootView;
 
@@ -285,10 +302,6 @@ public class ForecastFragment extends Fragment {
             resultStrs[i] = day + " - " + description + " - " + highAndLow;
         }
 
-        for (String s : resultStrs) {
-            Log.v("getWeatherDataFromJson", "Forecast entry: " + s);
-        }
         return resultStrs;
-
     }
 }
