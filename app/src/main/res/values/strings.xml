@@ -8,4 +8,6 @@
     <string name="pref_location_label">Postal Code</string>
     <string name="pref_location_default" translatable="false">B3H 1M2</string>
     <string name="pref_temperature_units_key">temperature_units</string>
+    <string name="pref_temperature_units_default">0</string>
+    <string name="action_map">Show Location</string>
 </resources>

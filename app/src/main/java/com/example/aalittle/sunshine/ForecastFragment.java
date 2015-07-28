@@ -99,7 +99,6 @@ public class ForecastFragment extends Fragment {
     }
 
     private String getLocationPreference() {
-
         SharedPreferences prefs = PreferenceManager.getDefaultSharedPreferences(getActivity());
         String locationPref = prefs.getString(getString(R.string.pref_location_key), getString(R.string.pref_location_default));
         return locationPref;
@@ -116,13 +115,25 @@ public class ForecastFragment extends Fragment {
         //an option was selected
         int id = item.getItemId();
         if(id == R.id.action_refresh) {
-
             updateWeather();
-
             return true;
+        } else if(id == R.id.action_map_location) {
+            showMap(getLocationPreference());
         }
 
+
         return super.onOptionsItemSelected(item);
+    }
+
+    private void showMap(String postalCode) {
+
+        String urlForMap = "geo:0,0?q=" + postalCode;
+        Uri geoLocation = Uri.parse(urlForMap);
+        Intent intent = new Intent(Intent.ACTION_VIEW);
+        intent.setData(geoLocation);
+        if (intent.resolveActivity(getActivity().getPackageManager()) != null) {
+            startActivity(intent);
+        }
     }
 
     public class FetchWeatherTask extends AsyncTask<String, Void, String[]> {
