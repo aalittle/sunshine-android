@@ -2,6 +2,7 @@ package com.example.aalittle.sunshine;
 
 import android.app.Fragment;
 import android.content.Context;
+import android.content.Intent;
 import android.net.Uri;
 import android.os.AsyncTask;
 import android.os.Bundle;
@@ -76,6 +77,10 @@ public class ForecastFragment extends Fragment {
                 if (selectedForecast != null) {
                     Toast weatherToast = Toast.makeText(getActivity(), selectedForecast, Toast.LENGTH_SHORT);
                     weatherToast.show();
+
+                    Intent weatherDetailIntent = new Intent(getActivity(), DetailActivity.class);
+                    weatherDetailIntent.putExtra(Intent.EXTRA_TEXT, selectedForecast);
+                    startActivity(weatherDetailIntent);
                 }
             }
         });
